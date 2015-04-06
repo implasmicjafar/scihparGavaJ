@@ -5,6 +5,9 @@
  */
 package View;
 
+import Controller.Controller;
+import Controller.MouseAndKeyController;
+import Controller.PanAndZoomController;
 import Render.RenderSurface;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -32,6 +35,11 @@ public class BasicView extends javax.swing.JPanel {
             public void run() {
                 m_pRs = new RenderSurface(view.getWidth(), view.getHeight());
                 m_pRs.Ref();
+                Controller controller = new PanAndZoomController(view,false);
+                controller.SetScene(m_pRs.GetScene());
+                controller.SetOverlayScene(m_pRs.GetOverlayScene());
+                controller.SetViewPort(m_pRs.GetViewPort());
+                m_pRs.SetController(controller);
                 Platform.setImplicitExit(false);
                 fxPanel.setScene(m_pRs.GetRootScene());
                 initialized = true;

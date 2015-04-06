@@ -31,6 +31,10 @@ public final class ViewPort extends RefCounted {
         objValid = true;
     }
     
+    public void ScaleAroundLocalPoint(double xLocal, double yLocal, double factor){
+        
+    }
+    
     public void SetZEnabled(boolean how){
         if(m_bZEnabled == how)return;
         m_bZEnabled = how;

@@ -6,7 +6,7 @@
 package Render;
 
 import Common.RefCounted;
-import Controller.MouseAndKeyController;
+import Controller.Controller;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Group;
@@ -24,7 +24,7 @@ import javafx.scene.shape.Shape;
  */
 public class RenderSurface extends RefCounted{
     
-    private MouseAndKeyController m_pController = null;
+    private Controller m_pController = null;
     private SubScene m_pScene = null;
     private SubScene m_pOverlayScene = null;
     private boolean m_bUseShader = false;
@@ -88,6 +88,20 @@ public class RenderSurface extends RefCounted{
         m_pOverlaySceneRoot.getChildren().add(m_pOverlaySceneClipShape);
         
     }
+
+    public SubScene GetScene() {
+        return m_pScene;
+    }
+
+    public SubScene GetOverlayScene() {
+        return m_pOverlayScene;
+    }
+
+    public ViewPort GetViewPort() {
+        return m_pViewPort;
+    }
+    
+    
     
     private Shape GetClip(double width, double height){
         Rectangle mighty = new Rectangle(-10000, -10000, 10000, 10000); // very large rectangle
@@ -131,7 +145,7 @@ public class RenderSurface extends RefCounted{
         m_pViewPort.SetZEnabled(how);
     }
     
-    public void SetController(MouseAndKeyController controller){
+    public void SetController(Controller controller){
         if(controller != null)controller.Ref();
         if(m_pController != null){
             try {
