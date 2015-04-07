@@ -62,14 +62,14 @@ public class RenderSurface extends RefCounted{
         AddDrawLayers(m_pSceneRoot);
         AddDrawLayers(m_pOverlaySceneRoot);
         
-        m_pRoot.getChildren().add(m_pOverlaySceneRoot);
-        m_pRoot.getChildren().add(m_pSceneRoot);
-        
         m_bZEnabled = false;
         m_pViewPort.SetZEnabled(m_bZEnabled);
         
         m_pScene.setCamera(m_pViewPort.GetOverviewCamera());
         m_pOverlayScene.setCamera((m_pViewPort.GetOverlayCamera()));
+        
+        m_pSceneRoot.getChildren().add(m_pViewPort.GetOverviewCamera());
+        m_pOverlaySceneRoot.getChildren().add(m_pViewPort.GetOverlayCamera());        
         
         m_pSceneClipShape = new Rectangle(0,0,dClientWidth,dClientHeight);
         m_pOverlaySceneClipShape = new Rectangle(0,0,dClientWidth,dClientHeight);
@@ -86,6 +86,9 @@ public class RenderSurface extends RefCounted{
         
         m_pSceneRoot.getChildren().add(m_pSceneClipShape);
         m_pOverlaySceneRoot.getChildren().add(m_pOverlaySceneClipShape);
+        
+        m_pRoot.getChildren().add(m_pOverlaySceneRoot);
+        m_pRoot.getChildren().add(m_pSceneRoot);
         
     }
 

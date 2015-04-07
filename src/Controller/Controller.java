@@ -10,14 +10,16 @@ import Render.ViewPort;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javax.swing.JComponent;
-import java.awt.event.MouseEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseWheelEvent;
+
 /**
  *
  * @author T3ee
@@ -54,6 +56,113 @@ public abstract class Controller extends RefCounted{
     public void SetRootScene(Scene scene){
         if(scene == null)return;
         m_pRootScene = scene;
+        if(m_pRootScene == null) return;
+        m_pRootScene.setOnMouseDragEntered(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent event) {
+                if(m_bActive){
+                    MouseDown(event);
+                }
+            }
+        });
+        
+        m_pRootScene.setOnMousePressed(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent event) {
+                if(m_bActive){
+                    MouseDown(event);
+                }
+            }
+        });
+        
+        m_pRootScene.setOnMouseDragged(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent event) {
+                if(m_bActive){                    
+                    MouseMove(event);
+                }
+            }
+        });
+        
+        m_pRootScene.setOnMouseMoved(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent event) {
+                if(m_bActive){                    
+                    MouseMove(event);
+                }
+            }
+        });
+        
+        m_pRootScene.setOnMouseDragReleased(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent event) {
+                if(m_bActive){                    
+                    MouseUp(event);                    
+                }
+            }
+        });
+        
+        m_pRootScene.setOnMouseReleased(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent event) {
+                if(m_bActive){                    
+                    MouseUp(event);                    
+                }
+            }
+        });
+        
+        m_pRootScene.setOnMouseEntered(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent event) {
+                m_bMouseIn = true;
+                if(m_bActive){                      
+                    MouseEnter(event);                    
+                }
+            }
+        });
+        
+        m_pRootScene.setOnMouseExited(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent event) {
+                m_bMouseIn = false;
+                if(m_bActive){                      
+                    MouseLeave(event);                    
+                }
+            }
+        });
+        
+        m_pRootScene.setOnKeyPressed(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event) {
+                if(m_bActive){                      
+                    KeyDown(event);                    
+                }
+            }
+        });
+        
+        m_pRootScene.setOnKeyReleased(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event) {
+                if(m_bActive){                      
+                    KeyUp(event);                    
+                }
+            }
+        });
+        
+        m_pRootScene.setOnScroll(new EventHandler<ScrollEvent>(){
+            @Override
+            public void handle(ScrollEvent event) {
+                if(m_bActive){                      
+                    if(event.getDeltaY() > 0){
+                        MouseWheelDown(event);
+                    }   else{
+                        MouseWheelUp(event);
+                    }               
+                }
+            }
+        });
+        
+        
     }
     
     public void SetScene(SubScene scene){
@@ -196,9 +305,9 @@ public abstract class Controller extends RefCounted{
     
     abstract public void MouseUp(MouseEvent evt);
     
-    abstract public void MouseWheelDown(MouseWheelEvent evt);
+    abstract public void MouseWheelDown(ScrollEvent evt);
     
-    abstract public void MouseWheelUp(MouseWheelEvent evt);
+    abstract public void MouseWheelUp(ScrollEvent evt);
     
     abstract protected void UpdateCursor();
     

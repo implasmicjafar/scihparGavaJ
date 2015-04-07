@@ -6,15 +6,9 @@
 package View;
 
 import Controller.Controller;
-import Controller.MouseAndKeyController;
 import Controller.PanZoom;
 import Render.RenderSurface;
 import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.event.EventHandler;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 
 /**
  *
@@ -44,6 +38,7 @@ public class BasicView extends javafx.embed.swing.JFXPanel {
                 m_pRs.SetController(controller);
                 Platform.setImplicitExit(false);                
                 view.setScene(m_pRs.GetRootScene());
+                m_pRs.GetController().Activate();
                 initialized = true;
             }            
         });        
@@ -79,47 +74,9 @@ public class BasicView extends javafx.embed.swing.JFXPanel {
     private void initComponents() {
 
         setBackground(new java.awt.Color(0, 0, 0));
-        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                formMouseMoved(evt);
-            }
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                formMouseDragged(evt);
-            }
-        });
-        addMouseWheelListener(new java.awt.event.MouseWheelListener() {
-            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
-                formMouseWheelMoved(evt);
-            }
-        });
-        addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                formMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                formMouseReleased(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                formMouseExited(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                formMouseEntered(evt);
-            }
-        });
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
                 formComponentResized(evt);
-            }
-        });
-        addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                formKeyTyped(evt);
-            }
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                formKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                formKeyReleased(evt);
             }
         });
         setLayout(new java.awt.BorderLayout());
@@ -136,120 +93,6 @@ public class BasicView extends javafx.embed.swing.JFXPanel {
             });  
         }        
     }//GEN-LAST:event_formComponentResized
-
-    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-       Platform.runLater(new Runnable(){
-            @Override
-            public void run() {
-                if((m_pRs == null) || (m_pRs.GetController() == null))return;
-                m_pRs.GetController().Activate();
-                m_pRs.GetController().MouseDown(evt);
-            }        
-        });  
-    }//GEN-LAST:event_formMousePressed
-
-    private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
-       Platform.runLater(new Runnable(){
-            @Override
-            public void run() {
-                if((m_pRs == null) || (m_pRs.GetController() == null))return;
-                m_pRs.GetController().Activate();
-                m_pRs.GetController().MouseLeave(evt);
-            }        
-        });  
-    }//GEN-LAST:event_formMouseExited
-
-    private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
-        Platform.runLater(new Runnable(){
-            @Override
-            public void run() {
-                if((m_pRs == null) || (m_pRs.GetController() == null))return;
-                m_pRs.GetController().Activate();
-                m_pRs.GetController().MouseUp(evt);
-            }        
-        });  
-    }//GEN-LAST:event_formMouseReleased
-
-    private void formMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_formMouseWheelMoved
-        Platform.runLater(new Runnable(){
-            @Override
-            public void run() {
-                if((m_pRs == null) || (m_pRs.GetController() == null))return;
-                m_pRs.GetController().Activate();
-                if(evt.getWheelRotation() > 0){
-                    m_pRs.GetController().MouseWheelUp(evt);
-                }else{
-                    m_pRs.GetController().MouseWheelDown(evt);
-                }
-            }        
-        });     
-    }//GEN-LAST:event_formMouseWheelMoved
-
-    private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
-        Platform.runLater(new Runnable(){
-            @Override
-            public void run() {
-                if((m_pRs == null) || (m_pRs.GetController() == null))return;
-                m_pRs.GetController().Activate();
-                m_pRs.GetController().MouseMove(evt);
-            }        
-        });     
-    }//GEN-LAST:event_formMouseMoved
-
-    private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
-       Platform.runLater(new Runnable(){
-            @Override
-            public void run() {
-                if((m_pRs == null) || (m_pRs.GetController() == null))return;
-                m_pRs.GetController().Activate();
-                m_pRs.GetController().MouseEnter(evt);
-            }        
-        });   
-    }//GEN-LAST:event_formMouseEntered
-
-    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        Platform.runLater(new Runnable(){
-            @Override
-            public void run() {
-                if((m_pRs == null) || (m_pRs.GetController() == null))return;
-                m_pRs.GetController().Activate();
-                m_pRs.GetController().KeyDown(evt);
-            }        
-        }); 
-    }//GEN-LAST:event_formKeyPressed
-
-    private void formKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyTyped
-        Platform.runLater(new Runnable(){           
-            @Override
-            public void run() {
-                if((m_pRs == null) || (m_pRs.GetController() == null))return;
-                m_pRs.GetController().Activate();
-                m_pRs.GetController().KeyPress(evt);
-            }        
-        });  
-    }//GEN-LAST:event_formKeyTyped
-
-    private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
-        Platform.runLater(new Runnable(){
-            @Override
-            public void run() {
-                if((m_pRs == null) || (m_pRs.GetController() == null))return;
-                m_pRs.GetController().Activate();
-                m_pRs.GetController().KeyUp(evt);
-            }        
-        });  
-    }//GEN-LAST:event_formKeyReleased
-
-    private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
-        Platform.runLater(new Runnable(){
-            @Override
-            public void run() {
-                if((m_pRs == null) || (m_pRs.GetController() == null))return;
-                m_pRs.GetController().Activate();
-                m_pRs.GetController().MouseMove(evt);
-            }        
-        });
-    }//GEN-LAST:event_formMouseDragged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

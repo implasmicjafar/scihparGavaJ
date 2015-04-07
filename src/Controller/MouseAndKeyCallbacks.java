@@ -5,7 +5,7 @@
  */
 package Controller;
 
-import java.awt.event.MouseEvent;
+import javafx.scene.input.MouseEvent;
 
 /**
  *

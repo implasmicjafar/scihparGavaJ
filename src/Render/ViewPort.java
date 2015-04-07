@@ -25,7 +25,7 @@ public final class ViewPort extends RefCounted {
         super();
         // m_pViewCamera contains everything necessary to set the view or measure
         // the vieport. No need for raw matrix since one can rotate, translate, or invert the view as needed.              
-        m_pOverviewCamera = new ParallelCamera();  
+        m_pOverviewCamera = new PerspectiveCamera();  
         m_pOverlayCamera = new ParallelCamera();
         this.SetWidth(10000.0);               
         objValid = true;
