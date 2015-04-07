@@ -87,7 +87,6 @@ public class PanZoom extends MouseAndKeyController {
     
     @Override
     public void MouseDown(MouseEvent evt){
-        System.out.println("MouseDown" + System.currentTimeMillis());
         super.MouseDown(evt);
         if(evt.getButton() == MouseEvent.BUTTON1){
             m_dPanX = evt.getX() * 1.0;
@@ -122,7 +121,6 @@ public class PanZoom extends MouseAndKeyController {
     
     @Override
     public void MouseMove(MouseEvent evt){
-        System.out.println("MouseMove" + System.currentTimeMillis());
         if(m_bPanning){
             PanZoomControllerState caser = m_eState;
             if(m_eState == PanZoomControllerState.Panning) caser = PanZoomControllerState.Pan;
@@ -227,7 +225,6 @@ public class PanZoom extends MouseAndKeyController {
     
     @Override
     public void MouseUp(MouseEvent evt){
-        System.out.println("MouseUp" + System.currentTimeMillis());
         if(evt.getButton() == MouseEvent.BUTTON1){
             m_bPanning = false;
         }else if((evt.getButton() == MouseEvent.BUTTON2) && m_bRightMouseZoom){
@@ -278,7 +275,7 @@ public class PanZoom extends MouseAndKeyController {
         Cursor c = Cursor.DEFAULT;
         switch(this.m_eState){
             case Pan: c = Cursor.OPEN_HAND; break;
-            case Panning: c = Cursor.CLOSED_HAND; break;
+            case Panning: c = Cursor.MOVE; break;
             case Zoom: c = Cursor.DEFAULT; break;
             case Zooming: c = Cursor.DEFAULT; break;
             case Idle: c = Cursor.HAND;                
