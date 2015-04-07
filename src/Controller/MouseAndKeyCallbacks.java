@@ -5,14 +5,16 @@
  */
 package Controller;
 
+import java.awt.event.MouseEvent;
+
 /**
  *
  * @author T3ee
  */
 public interface MouseAndKeyCallbacks {
-    public void OnMouseDown(javafx.scene.input.MouseEvent evt);
-    public void OnMouseEnter(javafx.scene.input.MouseEvent evt);
-    public void OnMouseLeave(javafx.scene.input.MouseEvent evt);
-    public void OnMouseMove(javafx.scene.input.MouseEvent evt);
+    public void OnMouseDown(MouseEvent evt);
+    public void OnMouseEnter(MouseEvent evt);
+    public void OnMouseLeave(MouseEvent evt);
+    public void OnMouseMove(MouseEvent evt);
     
 }

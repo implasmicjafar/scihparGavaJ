@@ -11,10 +11,13 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Point2D;
+import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.input.MouseButton;
 import javax.swing.JComponent;
-
+import java.awt.event.MouseEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseWheelEvent;
 /**
  *
  * @author T3ee
@@ -23,6 +26,7 @@ public abstract class Controller extends RefCounted{
     protected ViewPort m_pViewPort = null;
     protected SubScene m_pScene = null;
     protected SubScene m_pOverlayScene = null;
+    protected Scene m_pRootScene = null;
     protected Point2D m_pMousePos;
     protected Point2D m_pPrevMousePos;
     protected boolean m_bMouseDown = false;
@@ -47,6 +51,11 @@ public abstract class Controller extends RefCounted{
         m_pViewPort = viewPort;
     }
     
+    public void SetRootScene(Scene scene){
+        if(scene == null)return;
+        m_pRootScene = scene;
+    }
+    
     public void SetScene(SubScene scene){
         if(scene == null)return;
         m_pScene = scene;
@@ -61,25 +70,25 @@ public abstract class Controller extends RefCounted{
         m_dMouseWheelZoomFactor = factor;
     }
     
-    public void MouseMove(javafx.scene.input.MouseEvent evt){
+    public void MouseMove(MouseEvent evt){
         if(m_fMouseAndKeyCB != null){
             m_fMouseAndKeyCB.OnMouseMove(evt);
         }
     }
     
-    public void MouseDown(javafx.scene.input.MouseEvent evt){
+    public void MouseDown(MouseEvent evt){
         if(m_fMouseAndKeyCB != null){
             m_fMouseAndKeyCB.OnMouseDown(evt);
         }
     }
     
-    public void MouseEnter(javafx.scene.input.MouseEvent evt){
+    public void MouseEnter(MouseEvent evt){
         if(m_fMouseAndKeyCB != null){
             m_fMouseAndKeyCB.OnMouseEnter(evt);
         }
     }
     
-    public void MouseLeave(javafx.scene.input.MouseEvent evt){
+    public void MouseLeave(MouseEvent evt){
         if(m_fMouseAndKeyCB != null){
             m_fMouseAndKeyCB.OnMouseLeave(evt);
         }
@@ -89,7 +98,7 @@ public abstract class Controller extends RefCounted{
         // no-op
     }
     
-    public void KeyPress(javafx.scene.input.KeyEvent evt){
+    public void KeyPress(KeyEvent evt){
         // no-op
     }
     
@@ -181,15 +190,15 @@ public abstract class Controller extends RefCounted{
     }
     
     
-    abstract public void KeyDown(javafx.scene.input.KeyEvent evt);
+    abstract public void KeyDown(KeyEvent evt);
     
-    abstract public void KeyUp(javafx.scene.input.KeyEvent evt);
+    abstract public void KeyUp(KeyEvent evt);
     
-    abstract public void MouseUp(javafx.scene.input.MouseEvent evt);
+    abstract public void MouseUp(MouseEvent evt);
     
-    abstract public void MouseWhellDown(javafx.scene.input.MouseEvent evt);
+    abstract public void MouseWheelDown(MouseWheelEvent evt);
     
-    abstract public void MouseWheelUp(javafx.scene.input.MouseEvent evt);
+    abstract public void MouseWheelUp(MouseWheelEvent evt);
     
     abstract protected void UpdateCursor();
     

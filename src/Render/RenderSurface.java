@@ -89,6 +89,10 @@ public class RenderSurface extends RefCounted{
         
     }
 
+    public Controller GetController() {
+        return m_pController;
+    }
+
     public SubScene GetScene() {
         return m_pScene;
     }

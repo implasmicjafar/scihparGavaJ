@@ -54,11 +54,11 @@ public final class ViewPort extends RefCounted {
         
     }
 
-    public Camera getM_pOverviewCamera() {
+    public Camera GetOverviewCamera() {
         return m_pOverviewCamera;
     }
 
-    public Camera getM_pOverlayCamera() {
+    public Camera GetOverlayCamera() {
         return m_pOverlayCamera;
     }
     
@@ -70,14 +70,6 @@ public final class ViewPort extends RefCounted {
     
     public void Resize(int iClientWidth, int iClientHeight){
         
-    }
-    
-    public Camera GetOverviewCamera(){
-        return m_pOverviewCamera;
-    }
-    
-    public Camera GetOverlayCamera(){
-        return m_pOverlayCamera;
     }
     
     public boolean isValid(){

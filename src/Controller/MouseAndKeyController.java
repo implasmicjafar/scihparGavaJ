@@ -5,13 +5,14 @@
  */
 package Controller;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import javax.swing.JComponent;
 
@@ -34,7 +35,7 @@ public class MouseAndKeyController extends Controller{
         m_dMouseWheelZoomFactor = 0.95;
         m_bActive = false;
         m_bMouseIn = false;        
-        tickTimeline = new Timeline(new KeyFrame(Duration.millis(500), ae -> this.PreTick()));
+        tickTimeline = new Timeline(new KeyFrame(Duration.millis(50), ae -> this.PreTick()));
         tickTimeline.setCycleCount(Animation.INDEFINITE);
         tickTimeline.play();        
     }
@@ -69,12 +70,12 @@ public class MouseAndKeyController extends Controller{
     }
 
     @Override
-    public void MouseWhellDown(MouseEvent evt) {
+    public void MouseWheelDown(MouseWheelEvent evt) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void MouseWheelUp(MouseEvent evt) {
+    public void MouseWheelUp(MouseWheelEvent evt) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
