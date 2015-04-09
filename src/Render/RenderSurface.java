@@ -9,8 +9,10 @@ import Common.RefCounted;
 import Controller.Controller;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
@@ -49,6 +51,10 @@ public class RenderSurface extends RefCounted{
         
         m_pViewPort = new ViewPort();
         m_pViewPort.Ref();
+        
+        m_bZEnabled = false;
+        m_pViewPort.SetZEnabled(m_bZEnabled);
+        
         m_pController = null;
         
         m_pRootScene = CreateScene();
@@ -59,36 +65,20 @@ public class RenderSurface extends RefCounted{
         m_pScene = new SubScene(m_pSceneRoot, m_pRootScene.getWidth(), m_pRootScene.getHeight());
         m_pOverlayScene = new SubScene(m_pOverlaySceneRoot, m_pRootScene.getWidth(), m_pRootScene.getHeight());
         
-        AddDrawLayers(m_pSceneRoot);
-        AddDrawLayers(m_pOverlaySceneRoot);
-        
-        m_bZEnabled = false;
-        m_pViewPort.SetZEnabled(m_bZEnabled);
+        m_pScene.setFill(Color.TRANSPARENT);
+        m_pOverlayScene.setFill(Color.TRANSPARENT);
         
         m_pScene.setCamera(m_pViewPort.GetOverviewCamera());
-        m_pOverlayScene.setCamera((m_pViewPort.GetOverlayCamera()));
+        m_pOverlayScene.setCamera(m_pViewPort.GetOverlayCamera());
+        
+        AddDrawLayers(m_pSceneRoot);
+        AddDrawLayers(m_pOverlaySceneRoot);   
         
         m_pSceneRoot.getChildren().add(m_pViewPort.GetOverviewCamera());
-        m_pOverlaySceneRoot.getChildren().add(m_pViewPort.GetOverlayCamera());        
+        m_pOverlaySceneRoot.getChildren().add(m_pViewPort.GetOverlayCamera());
         
-        m_pSceneClipShape = new Rectangle(0,0,dClientWidth,dClientHeight);
-        m_pOverlaySceneClipShape = new Rectangle(0,0,dClientWidth,dClientHeight);
-        
-        m_pSceneClipShape.setFill(Color.TRANSPARENT);
-        m_pOverlaySceneClipShape.setFill(Color.TRANSPARENT);
-        m_pSceneClipShape.setStroke(Color.GREY);
-        m_pOverlaySceneClipShape.setStroke(Color.GREY);
-        m_pSceneClipShape.setVisible(false);
-        m_pOverlaySceneClipShape.setVisible(false);
-                               
-        m_pOverlaySceneRoot.setClip(GetClip(dClientWidth, dClientHeight));
-        m_pSceneRoot.setClip(GetClip(dClientWidth, dClientHeight)); 
-        
-        m_pSceneRoot.getChildren().add(m_pSceneClipShape);
-        m_pOverlaySceneRoot.getChildren().add(m_pOverlaySceneClipShape);
-        
-        m_pRoot.getChildren().add(m_pOverlaySceneRoot);
-        m_pRoot.getChildren().add(m_pSceneRoot);
+        m_pRoot.getChildren().add(m_pOverlayScene);
+        m_pRoot.getChildren().add(m_pScene);
         
     }
 
@@ -180,14 +170,19 @@ public class RenderSurface extends RefCounted{
         m_dClientWidth = dClientWidth;
         m_dClientHeight = dClientHeight;
         
-        m_pOverlaySceneRoot.setClip(GetClip(dClientWidth, dClientHeight));
-        m_pSceneRoot.setClip(GetClip(dClientWidth, dClientHeight)); 
-               
-        m_pSceneClipShape.setHeight(dClientHeight);
-        m_pOverlaySceneClipShape.setHeight(dClientHeight);
+        m_pScene.setWidth(dClientWidth);
+        m_pScene.setHeight(dClientHeight);
         
-        m_pSceneClipShape.setWidth(dClientWidth);
-        m_pOverlaySceneClipShape.setWidth(dClientWidth);
+        m_pOverlayScene.setWidth(dClientWidth);
+        m_pOverlayScene.setHeight(dClientHeight);
+        //m_pOverlaySceneRoot.setClip(GetClip(dClientWidth, dClientHeight));
+        //m_pSceneRoot.setClip(GetClip(dClientWidth, dClientHeight)); 
+               
+        //m_pSceneClipShape.setHeight(dClientHeight);
+        //m_pOverlaySceneClipShape.setHeight(dClientHeight);
+        
+        //m_pSceneClipShape.setWidth(dClientWidth);
+        //m_pOverlaySceneClipShape.setWidth(dClientWidth);
     }
     
      /**

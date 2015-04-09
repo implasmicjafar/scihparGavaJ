@@ -27,12 +27,18 @@ public final class ViewPort extends RefCounted {
         // the vieport. No need for raw matrix since one can rotate, translate, or invert the view as needed.              
         m_pOverviewCamera = new PerspectiveCamera();  
         m_pOverlayCamera = new ParallelCamera();
-        this.SetWidth(10000.0);               
+        //this.SetWidth(10000.0);               
         objValid = true;
     }
     
     public void ScaleAroundLocalPoint(double xLocal, double yLocal, double factor){
-        
+        double oneMinusF = 1.0 - factor;
+        double vx = xLocal * oneMinusF;
+        double vy = yLocal * oneMinusF;
+        m_pOverviewCamera.setTranslateX(vx);
+        m_pOverviewCamera.setTranslateY(vy);
+        m_pOverviewCamera.setScaleX(m_pOverviewCamera.getScaleX() * factor);
+        m_pOverviewCamera.setScaleY(m_pOverviewCamera.getScaleY() * factor);
     }
     
     public void SetZEnabled(boolean how){

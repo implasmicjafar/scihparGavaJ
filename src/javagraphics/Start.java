@@ -35,6 +35,7 @@ public class Start {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                
                 Rectangle r = new Rectangle();
                 r.setX(50);
                 r.setY(50);
@@ -44,7 +45,7 @@ public class Start {
                 r.setArcHeight(20);
                 r.setFill(Color.BLUE);
                
-                //view.GetRenderSurface().m_pRoot.getChildren().add(r);
+                
                 view.GetRenderSurface().AddDrawable(r, 0);
                 view.GetRenderSurface().SetOverviewLayerMask(0, true);
                 
