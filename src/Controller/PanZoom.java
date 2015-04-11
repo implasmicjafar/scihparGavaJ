@@ -88,9 +88,10 @@ public class PanZoom extends MouseAndKeyController {
     @Override
     public void MouseDown(MouseEvent evt){
         super.MouseDown(evt);
+        Point2D pt = new Point2D(m_pViewPort.GetOverviewCamera().getScaleX()*evt.getX(), m_pViewPort.GetOverviewCamera().getScaleY()*evt.getY());        
         if(evt.getButton() == MouseButton.PRIMARY){
-            m_dPanX = evt.getX() * 1.0;
-            m_dPanY = evt.getY() * 1.0;
+            m_dPanX = pt.getX() * 1.0;
+            m_dPanY = pt.getY() * 1.0;
             m_bPanning = true;
             if(m_eState != PanZoomControllerState.Panning)
                 m_eState = PanZoomControllerState.Pan;
@@ -124,19 +125,16 @@ public class PanZoom extends MouseAndKeyController {
         if(m_bPanning){
             PanZoomControllerState caser = m_eState;
             if(m_eState == PanZoomControllerState.Panning) caser = PanZoomControllerState.Pan;
+            Point2D pt = new Point2D(m_pViewPort.GetOverviewCamera().getScaleX()*evt.getX(), m_pViewPort.GetOverviewCamera().getScaleY()*evt.getY());
             switch(caser){
-                case Pan: 
-                    Camera overviewCam = m_pViewPort.GetOverviewCamera();
-                    //Point2D rLocal = overviewCam.screenToLocal(m_dPanX - evt.getX(), m_dPanY - evt.getY());
-                    
+                case Pan:                                                             
                     double dt = Getdt();
-                    Point2D rLocal = new Point2D(m_dPanX - evt.getX(),m_dPanY - evt.getY());
-                    // have pan match mouse exactly when mouse button is down
-                    
-                    overviewCam.setTranslateX(m_pViewPort.GetOverviewCamera().getTranslateX() + rLocal.getX());
-                    overviewCam.setTranslateY(m_pViewPort.GetOverviewCamera().getTranslateY() + rLocal.getY());
-                    m_dPanX = evt.getX() * 1.0;
-                    m_dPanY = evt.getY() * 1.0;
+                    Point2D rLocal = new Point2D(m_dPanX - pt.getX(),m_dPanY - pt.getY());
+                    // have pan match mouse exactly when mouse button is down                    
+                    m_pViewPort.GetOverviewCamera().setTranslateX(m_pViewPort.GetOverviewCamera().getTranslateX() + rLocal.getX());
+                    m_pViewPort.GetOverviewCamera().setTranslateY(m_pViewPort.GetOverviewCamera().getTranslateY() + rLocal.getY());
+                    m_dPanX = pt.getX();
+                    m_dPanY = pt.getY();
                     m_eState = PanZoomControllerState.Panning;
                     // Calculate the pan velocity
                     if(dt > 0.0){
@@ -160,14 +158,13 @@ public class PanZoom extends MouseAndKeyController {
     }
     
     @Override
-    public void KeyDown(KeyEvent evt){
-        Point2D rMousePos;  
+    public void KeyDown(KeyEvent evt){        
         int charValue = evt.getCode().ordinal();
         if(charValue == 34){
-            Point p = MouseInfo.getPointerInfo().getLocation();
-            rMousePos = new Point2D(p.getX(),p.getY());            
+            Point p = MouseInfo.getPointerInfo().getLocation();                        
+            Point2D rLocal = new Point2D(p.getX()-m_pRootScene.getWindow().getX(),p.getY()-m_pRootScene.getWindow().getY());            
             if(m_bMouseIn){ // Zoom out (page down)
-                Point2D rLocal = m_pViewPort.GetOverviewCamera().sceneToLocal(rMousePos);
+                
                 if(SMOOTH_ZOOM){
                     m_dPanVZ = m_dPanVZ - ZVEL_DELTA*((m_dMouseWheelZoomFactor-0.95)*3+0.95);
                     m_dZoomPt = rLocal;
@@ -175,12 +172,12 @@ public class PanZoom extends MouseAndKeyController {
                     m_pViewPort.ScaleAroundLocalPoint(rLocal.getX(), rLocal.getY(), 1/m_dMouseWheelZoomFactor);
                 }
                 evt.consume();
-            }                                    
+            } 
+                 
         }else if(charValue == 33){ // Zoom in (page up)
-            Point p = MouseInfo.getPointerInfo().getLocation();
-            rMousePos = new Point2D(p.getX(),p.getY());
-            if(m_bMouseIn){
-                Point2D rLocal = m_pViewPort.GetOverviewCamera().sceneToLocal(rMousePos);
+            Point p = MouseInfo.getPointerInfo().getLocation();                        
+            Point2D rLocal = new Point2D(p.getX()-m_pRootScene.getWindow().getX(),p.getY()-m_pRootScene.getWindow().getY());              
+            if(m_bMouseIn){                
                 if(SMOOTH_ZOOM){
                     m_dPanVZ = m_dPanVZ + ZVEL_DELTA*((m_dMouseWheelZoomFactor-0.95)*3+0.95);
                     m_dZoomPt = rLocal;
@@ -194,7 +191,7 @@ public class PanZoom extends MouseAndKeyController {
     }
     
     @Override
-    public void MouseWheelDown(ScrollEvent evt){
+    public void MouseWheelUp(ScrollEvent evt){
         if(m_bMouseIn){            
             if(SMOOTH_ZOOM){
                 m_dPanVZ = m_dPanVZ - ZVEL_DELTA*((m_dMouseWheelZoomFactor-0.95)*3+0.95);
@@ -209,7 +206,7 @@ public class PanZoom extends MouseAndKeyController {
     
     
     @Override
-    public void MouseWheelUp(ScrollEvent evt){
+    public void MouseWheelDown(ScrollEvent evt){
         if(m_bMouseIn){
             
             if(SMOOTH_ZOOM){

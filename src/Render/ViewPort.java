@@ -6,9 +6,9 @@
 package Render;
 
 import Common.RefCounted;
+import javafx.geometry.Point2D;
 import javafx.scene.Camera;
 import javafx.scene.ParallelCamera;
-import javafx.scene.PerspectiveCamera;
 
 /**
  *
@@ -25,32 +25,34 @@ public final class ViewPort extends RefCounted {
         super();
         // m_pViewCamera contains everything necessary to set the view or measure
         // the vieport. No need for raw matrix since one can rotate, translate, or invert the view as needed.              
-        m_pOverviewCamera = new PerspectiveCamera();  
+        m_pOverviewCamera = new ParallelCamera();  
         m_pOverlayCamera = new ParallelCamera();
         //this.SetWidth(10000.0);               
         objValid = true;
     }
     
     public void ScaleAroundLocalPoint(double xLocal, double yLocal, double factor){
+        Point2D pt =  m_pOverviewCamera.localToScene(xLocal, yLocal);
+        
         double oneMinusF = 1.0 - factor;
-        double vx = xLocal * oneMinusF;
-        double vy = yLocal * oneMinusF;
-        m_pOverviewCamera.setTranslateX(vx);
-        m_pOverviewCamera.setTranslateY(vy);
+        double Ba = (pt.getX() - m_pOverviewCamera.getTranslateX());
+        double Bb = (pt.getY() - m_pOverviewCamera.getTranslateY());
+        double Ca = oneMinusF * Ba;
+        double Cb = 0;
+        if(Ba != 0)
+            Cb = (Bb * Ca)/Ba;        
+        m_pOverviewCamera.setTranslateX(m_pOverviewCamera.getTranslateX() + Ca);
+        m_pOverviewCamera.setTranslateY(m_pOverviewCamera.getTranslateY() + Cb);
+        
         m_pOverviewCamera.setScaleX(m_pOverviewCamera.getScaleX() * factor);
         m_pOverviewCamera.setScaleY(m_pOverviewCamera.getScaleY() * factor);
+        
     }
     
     public void SetZEnabled(boolean how){
         if(m_bZEnabled == how)return;
         m_bZEnabled = how;
-        if(how){
-            m_pOverviewCamera = new PerspectiveCamera();
-            this.SetWidth(10000.0);      
-        }else{
-            m_pOverviewCamera = new ParallelCamera();  
-            this.SetWidth(10000.0);
-        }
+        // No-op
     }
     
     public void SetWidth(double scaleValue, double verticalStretch){

@@ -47,6 +47,18 @@ public class Start {
                
                 
                 view.GetRenderSurface().AddDrawable(r, 0);
+                
+                
+                Rectangle k = new Rectangle();
+                k.setX(1000);
+                k.setY(1000);
+                k.setWidth(500);
+                k.setHeight(500);
+                k.setArcWidth(20);
+                k.setArcHeight(20);
+                k.setFill(Color.BLUE);
+                
+                view.GetRenderSurface().AddDrawable(k, 0);
                 view.GetRenderSurface().SetOverviewLayerMask(0, true);
                 
                 view.UpdateSize();
