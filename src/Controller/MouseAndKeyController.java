@@ -35,7 +35,7 @@ public class MouseAndKeyController extends Controller{
         m_dMouseWheelZoomFactor = 0.95;
         m_bActive = false;
         m_bMouseIn = true;        
-        tickTimeline = new Timeline(new KeyFrame(Duration.millis(50), ae -> this.PreTick()));
+        tickTimeline = new Timeline(new KeyFrame(Duration.millis(10), ae -> this.PreTick()));
         tickTimeline.setCycleCount(Animation.INDEFINITE);
         tickTimeline.play();        
     }
